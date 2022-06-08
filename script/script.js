@@ -1,6 +1,7 @@
+/*jshint esversion: 6 */
 setInterval(AttMove, 16);
 
-var state = 'run';
+var state = null;
 
 var framestate = 0;
 
@@ -46,9 +47,12 @@ function getViewport(){
 function AttMove(){
     if(keypress.keyleft == 1){Hmove(Pvelocity);}
     if(keypress.keyright == 1){Hmove(-Pvelocity);}
-    if(keypress.keytop == 1){frame('jump');Vmove(150);}
-    if(keypress.keyright == 0&&keypress.keyleft == 0){person.src = frames[0];}
+    if(keypress.keytop == 1){frame('jump'); Vmove(150);}
     if(keypress.keybottom == 1){frame('crouch');}
+
+    if(keypress.keyright == 0 && keypress.keyleft == 0 && position == 80 && keypress.keybottom == 0){person.src = frames[0];}
+    if(keypress.keyright == 1 || keypress.keyleft == 1){keypress.keybottom = 0;}
+
     isDirecition();
     gravity();
     getViewport();
@@ -61,7 +65,7 @@ function isDirecition(){
 }
 
 function gravity(){
-    if(position != 80){position = position - Gravity;}
+    if(position != 80){position -= Gravity;}
     person.style.marginBottom = `${position}px`;
 }
 
@@ -90,17 +94,15 @@ function Hmove(velocity){
     }
 }
 function frame(state){
-    framestate++;
-    console.log(framestate);
     if(state == 'run'){
         if(framestate == 5){person.src = frames[0];}
-        if(framestate == 10){person.src = frames[1];framestate = 0;}}
+        if(framestate == 10){person.src = frames[1];framestate = 0;}
+        framestate++;
+    }
     if(state == 'jump'){
         person.src = frames[2];
-        setTimeout(framestate = 0, 100);
     }
     if(state == 'crouch'){
         person.src = frames[3];
-        framestate = 0;
     }
 }
