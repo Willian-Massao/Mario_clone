@@ -1,5 +1,11 @@
 setInterval(AttMove, 16);
 
+var state = 'run';
+
+var framestate = 0;
+
+var frames = ['src/mario.png', 'src/mario1.png', 'src/mario3.png', 'src/mario4.png'];
+
 var Pvelocity = 15;
 
 var diretion = 1;
@@ -21,19 +27,15 @@ document.addEventListener('keyup', (e) => {
     if(e.key.toLowerCase() == 'd') {keypress.keyleft = 0;}
     if(e.key.toLowerCase() == 'a') {keypress.keyright = 0;}
     if(e.key.toLowerCase() == 'w') {keypress.keytop = 0;}
+    if(e.key.toLowerCase() == 's') {keypress.keybottom = 0;}
 });
 
 document.addEventListener('keydown', (e) => {
     if(!e.repeat){
         if(e.key.toLowerCase() == 'd') {keypress.keyleft = 1;}
         if(e.key.toLowerCase() == 'a') {keypress.keyright = 1;}
-        if(e.key.toLowerCase() == 'w') {
-            if(position > 80){
-                keypress.keytop = 0;
-            }else{
-                keypress.keytop = 1;
-            }
-        }
+        if(e.key.toLowerCase() == 'w') {if(position > 80){ keypress.keytop = 0; }else{ keypress.keytop = 1; }}
+        if(e.key.toLowerCase() == 's') {keypress.keybottom = 1;}
     }
 });
 function getViewport(){
@@ -44,7 +46,9 @@ function getViewport(){
 function AttMove(){
     if(keypress.keyleft == 1){Hmove(Pvelocity);}
     if(keypress.keyright == 1){Hmove(-Pvelocity);}
-    if(keypress.keytop == 1){Vmove(150);}
+    if(keypress.keytop == 1){frame('jump');Vmove(150);}
+    if(keypress.keyright == 0&&keypress.keyleft == 0){person.src = frames[0];}
+    if(keypress.keybottom == 1){frame('crouch');}
     isDirecition();
     gravity();
     getViewport();
@@ -76,11 +80,27 @@ function Hmove(velocity){
     if(position < 0){
         position =  0;
         person.style.marginLeft = `${position}px`;
-    }else if(position > borderlimit){
+    }if(position > borderlimit){
         position = borderlimit;
         person.style.marginLeft = `${position}px`;
     }else{
         position =  position + velocity;
         person.style.marginLeft = `${position}px`;
+        frame('run');
+    }
+}
+function frame(state){
+    framestate++;
+    console.log(framestate);
+    if(state == 'run'){
+        if(framestate == 5){person.src = frames[0];}
+        if(framestate == 10){person.src = frames[1];framestate = 0;}}
+    if(state == 'jump'){
+        person.src = frames[2];
+        setTimeout(framestate = 0, 100);
+    }
+    if(state == 'crouch'){
+        person.src = frames[3];
+        framestate = 0;
     }
 }
