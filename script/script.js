@@ -41,7 +41,7 @@ document.addEventListener('keydown', (e) => {
 });
 function getViewport(){
     borderlimit = window.innerWidth;
-    borderlimit-=140;
+    borderlimit-=170;
 }
 
 function AttMove(){
