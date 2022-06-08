@@ -10,7 +10,7 @@
 }
 #chao{
     background-color: rgb(126, 68, 35);
-    background-image: url('./src/ch.png');
+    background-image: url('../src/ch.png');
     height: 80px;
     width: 100vw;
     position: absolute;
