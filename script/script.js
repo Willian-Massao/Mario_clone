@@ -51,6 +51,7 @@ function AttMove(){
     if(keypress.keybottom == 1){frame('crouch');}
 
     if(keypress.keyright == 0 && keypress.keyleft == 0 && position == 80 && keypress.keybottom == 0){person.src = frames[0];}
+    if(keypress.keyright == 1&&keypress.keyleft == 1){person.src = frames[0];}
     if(keypress.keyright == 1 || keypress.keyleft == 1){keypress.keybottom = 0;}
 
     isDirecition();
@@ -93,6 +94,7 @@ function Hmove(velocity){
         frame('run');
     }
 }
+
 function frame(state){
     if(state == 'run'){
         if(framestate == 5){person.src = frames[0];}
